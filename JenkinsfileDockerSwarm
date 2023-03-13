@@ -4,8 +4,8 @@ node{
         git url: 'https://github.com/Arvind-admin/java-web-app-docker.git',branch: 'master'
     }
     
-    stage(" Maven Clean Package"){
-      def mavenHome =  tool name: "Maven-3.9.0", type: "maven"
+    stage("Maven Clean Package"){
+      def mavenHome =  tool name: "Maven-3.6.1", type: "maven"
       def mavenCMD = "${mavenHome}/bin/mvn"
       sh "${mavenCMD} clean package"
     } 
