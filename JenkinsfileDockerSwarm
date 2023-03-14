@@ -11,25 +11,25 @@ node{
     } 
     
     stage("Build Dokcer Image") {
-         sh "docker build -t arvindcdh/java-web-app:${buildNumber} ."
+         sh "docker build -t 172.31.8.81:8083/java-web-app:${buildNumber} ."
     }
     
     stage("Docker Push"){
-        withCredentials([string(credentialsId: 'Docker_Hub_Pwd', variable: 'Docker_Hub_Pwd')]) {
-          sh "docker login -u arvindcdh -p ${Docker_Hub_Pwd}"
+        withCredentials([string(credentialsId: 'Private_repo_Pwd', variable: 'Private_repo_Pwd')]) {
+          sh "docker login -u admin -p ${Private_repo_Pwd}172.31.8.81:8083"
         }
-        sh "docker push arvindcdh/java-web-app:${buildNumber}"
+        sh "docker push 172.31.8.81:8083/java-web-app:${buildNumber}"
         
     }
     
     // Remove local image in Jenkins Server
     stage("Remove Local Image"){
-        sh "docker rmi -f arvindcdh/java-web-app:${buildNumber}"
+        sh "docker rmi -f 172.31.8.81:8083/java-web-app:${buildNumber}"
     }
     
     stage("Deploy to docker swarm cluster"){
         sshagent(['Docker_Swarm_Manager_Dev']) {
             sh 'ssh -o StrictHostKeyChecking=no ec2-user@ip-172-31-45-242 docker service rm javawebapp || true'
-            sh "ssh ec2-user@ip-172-31-45-242 docker service create --name javawebapp -p 8080:8080 --replicas 2 arvindcdh/java-web-app:${buildNumber}"
+            sh "ssh ec2-user@ip-172-31-45-242 docker service create --name javawebapp -p 8080:8080 --replicas 2 172.31.8.81:8083/java-web-app:${buildNumber}"
         }
     }
