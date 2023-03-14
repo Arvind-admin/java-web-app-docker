@@ -33,7 +33,7 @@ node{
             sh "ssh -o StrictHostKeyChecking=no ec2-user@ip-172-31-45-242 docker login admin -p ${Private_repo_Pwd} 172.31.8.81:8083"
             }
             sh 'ssh -o StrictHostKeyChecking=no ec2-user@ip-172-31-45-242 docker service rm javawebapp || true'
-            sh "ssh ec2-user@ip-172-31-45-242 docker service create --name javawebapp --with-registry-auth -p 8080:8080 --replicas 2 172.31.8.81:8083/java-web-app:${buildNumber}"
+            sh "ssh ec2-user@ip-172-31-45-242 docker service create --name javawebapp  -p 8080:8080 --replicas 2 172.31.8.81:8083/java-web-app:${buildNumber}"
         }
     }
     }
