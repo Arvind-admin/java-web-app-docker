@@ -29,7 +29,7 @@ node{
     
     stage("Deploy to docker swarm cluster"){
         sshagent(['Docker_Swarm_Manager_Dev']) {
-            sh 'ssh -o StrictHostKeyChecking=no ec2-user@ip-3.14.14.195 docker service rm javawebapp || true'
-            sh "ssh ec2-user@ip-3.14.14.195 docker service create --name javawebapp -p 8080:8080 --replicas 2 arvindcdh/java-web-app:${buildNumber}"
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@ip-172.31.45.242 docker service rm javawebapp || true'
+            sh "ssh ec2-user@ip-172.31.45.242 docker service create --name javawebapp -p 8080:8080 --replicas 2 arvindcdh/java-web-app:${buildNumber}"
         }
     }
