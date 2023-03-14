@@ -16,7 +16,7 @@ node{
     
     stage("Docker Push"){
         withCredentials([string(credentialsId: 'Private_repo_Pwd', variable: 'Private_repo_Pwd')]) {
-          sh "docker login -u admin -p ${Private_repo_Pwd}172.31.8.81:8083"
+          sh "docker login -u admin -p ${Private_repo_Pwd} 172.31.8.81:8083"
         }
         sh "docker push 172.31.8.81:8083/java-web-app:${buildNumber}"
         
